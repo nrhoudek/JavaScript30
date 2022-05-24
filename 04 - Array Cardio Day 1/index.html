@@ -34,32 +34,77 @@
       'Berne, Eric', 'Berra, Yogi', 'Berry, Wendell', 'Bevan, Aneurin', 'Ben-Gurion, David', 'Bevel, Ken', 'Biden, Joseph', 'Bennington, Chester', 'Bierce, Ambrose',
       'Billings, Josh', 'Birrell, Augustine', 'Blair, Tony', 'Beecher, Henry', 'Biondo, Frank'
     ];
-    
+
     // Array.prototype.filter()
     // 1. Filter the list of inventors for those who were born in the 1500's
+    const fifteen = inventors.filter(inventor => (inventor.year >= 1500 && inventor.year <= 1599))
+    console.table(fifteen);
+
 
     // Array.prototype.map()
     // 2. Give us an array of the inventors first and last names
+    const fullNames = inventors.map(inventor => (`${inventor.first} ${inventor.last}`))
+    console.table(fullNames);
 
     // Array.prototype.sort()
     // 3. Sort the inventors by birthdate, oldest to youngest
+    const orderedAge = inventors.sort((a, b) => a.year > b.year ? 1 : -1);
+    console.table(orderedAge);
+
 
     // Array.prototype.reduce()
     // 4. How many years did all the inventors live all together?
+    const totalYears = inventors.reduce((total, inventor) => {
+      return total + (inventor.passed - inventor.year);
+    }, 0)
+    console.log(totalYears);
 
     // 5. Sort the inventors by years lived
+    const youngToOld = inventors.sort((a, b) => {
+      if((a.passed - a.year) > (b.passed - b.year)) {
+        return 1;
+      } else {
+        return -1;
+      }
+    })
+
+    console.table(youngToOld);
 
     // 6. create a list of Boulevards in Paris that contain 'de' anywhere in the name
     // https://en.wikipedia.org/wiki/Category:Boulevards_in_Paris
 
+    //Run code in console on wiki page from link above
+    // const category = document.querySelector('.mw-category');
+    // const names = Array.from(category.querySelectorAll('li'));
+    // const namesWithDe = names.filter(name => name.innerText.includes('de'));
 
     // 7. sort Exercise
     // Sort the people alphabetically by last name
+    const alphaSort = people.sort((lastPerson, nextPerson) => {
+      const [aLast, aFirst] = lastPerson.split(', ');
+      const [bLast, bFirst] = nextPerson.split(', ');
+      return aLast > bLast ? 1 : -1;
+    });
+
+    console.table(alphaSort);
 
     // 8. Reduce Exercise
     // Sum up the instances of each of these
     const data = ['car', 'car', 'truck', 'truck', 'bike', 'walk', 'car', 'van', 'bike', 'walk', 'car', 'van', 'car', 'truck' ];
+    const transportation = data.reduce((obj, item) => {
+      //Since we are starting with an empty object, if the mode of transportation
+      //Does not exist, we need to create a key and set it's value to 0
+      if(!obj[item]) {
+        obj[item] = 0;
+      }
 
+      //Increase value of mode of transportation by 1
+      obj[item]++;
+
+      return obj;
+    },{});
+
+    console.log(transportation);
   </script>
 </body>
 </html>
