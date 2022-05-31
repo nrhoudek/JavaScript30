@@ -96,6 +96,49 @@
   </div>
 
 <script>
+  const itemsList = document.querySelectorAll('input[type=checkbox]');
+  const items = Array.from(itemsList);
+  let isPressedDown = false;
+  let lastItemIndex;
+
+  window.addEventListener('keydown', e => {
+    if (e.keyCode === 16) {
+      isPressedDown = true;
+    }
+  });
+
+  window.addEventListener('keyup', e => {
+    if(e.keyCode === 16) {
+      isPressedDown = false;
+    }
+  });
+
+  //Set isPressedDown to false if window loses focus
+  window.addEventListener('blur', e => { isPressedDown = false; });
+
+  items.forEach(item => { item.addEventListener('click', modifyList) })
+
+  function modifyList() {
+    //If shift is not held down, get index of last clicked item.
+    if (!isPressedDown) {
+      lastItemIndex = items.indexOf(this);
+    } else {
+      let thisItemIndex = items.indexOf(this);
+
+      //Set beginning and ending Index of items array
+      let beginningIndex = Math.min(lastItemIndex, thisItemIndex);
+      let endingIndex = Math.max(lastItemIndex, thisItemIndex);
+
+      //For each element inbetween the last picked item and the current item set them to checked
+      items.forEach(item => {
+        if (items.indexOf(item) >= beginningIndex && items.indexOf(item) <= endingIndex ) {
+          item.checked = true;
+        }
+      });
+
+      lastItemIndex = items.indexOf(this);
+    }
+  }
 </script>
 </body>
 </html>
