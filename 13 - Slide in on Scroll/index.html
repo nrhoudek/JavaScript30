@@ -43,6 +43,7 @@
   </div>
 
   <script>
+    //This debounce blocks our window scroll event listener from firing a bajillion times.Instead the scroll event listener will only fire every 20ms OR however long we pass a value to the wait for.
     function debounce(func, wait = 20, immediate = true) {
       var timeout;
       return function() {
@@ -58,6 +59,27 @@
       };
     }
 
+    const sliderImages = document.querySelectorAll('.slide-in');
+
+    function checkSlide() {
+      //Goal - Get images to slide in when they are about 50% "shown" from the bottom of the window
+      sliderImages.forEach(slideImage => {
+        //Get the amount of pixels from the top of the window. 
+        const slideInAt = (window.scrollY + window.innerHeight) - (slideImage.height / 2);
+        //bottom of the image
+        const imageBottom = slideImage.offsetTop + slideImage.height;
+        const isHalfShown = slideInAt > slideImage.offsetTop;
+        const isNotScrolledPast = window.scrollY < imageBottom;
+
+        if(isHalfShown && isNotScrolledPast) {
+          slideImage.classList.add('active');
+        } else {
+          slideImage.classList.remove('active');
+        }
+      });
+    }
+
+    window.addEventListener('scroll', debounce(checkSlide));
   </script>
 
   <style>
